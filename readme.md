@@ -1,4 +1,4 @@
-## Reference implementation of our paper [RetroXpert: Decompose Retrosynthesis Prediction Like A Chemist](https://arxiv.org/pdf/2011.02893.pdf) 
+## Reference implementation of our NeurIPS2020 paper [RetroXpert: Decompose Retrosynthesis Prediction Like A Chemist](https://arxiv.org/pdf/2011.02893.pdf) 
 
 The final results may slightly different from those reported in the paper. We are continuously improving the implementation after the acceptance. 
 For example, directed edges are adopted in the implementation, and previous implementation requires both directed edges are correctly predicted to be disconnected for each bond disconnection.
