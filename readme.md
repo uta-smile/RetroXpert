@@ -20,10 +20,10 @@ python preprocessing.py
 2. Extract semi-template patterns.
 ```
 # extract semi-tempaltes for training data
-python extract_template_pattern.py --extract_pattern
+python extract_semi_template_pattern.py --extract_pattern
 
 # find semi-template patterns for all data
-python extract_template_pattern.py
+python extract_semi_template_pattern.py
 ```
 3. Start to train EGAT model with reaction category
 ```
