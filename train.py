@@ -18,7 +18,7 @@ parser.add_argument('--epochs',
                     help='number of epochs to train (default: 20)')
 parser.add_argument('--in_dim',
                     type=int,
-                    default=47 + 646,
+                    default=47 + 657,
                     help='dim of atom feature')
 parser.add_argument('--lr', type=float, default=5e-4, help='learning rate')
 parser.add_argument('--seed',

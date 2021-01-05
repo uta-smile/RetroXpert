@@ -7,4 +7,5 @@ python ../../../tools/average_models.py -output average_model.pt \
             USPTO50K-aug-untyped_model_step_260000.pt \
             USPTO50K-aug-untyped_model_step_270000.pt \
             USPTO50K-aug-untyped_model_step_280000.pt \
-            USPTO50K-aug-untyped_model_step_290000.pt
+            USPTO50K-aug-untyped_model_step_290000.pt \
+            USPTO50K-aug-untyped_model_step_300000.pt
