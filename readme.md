@@ -54,7 +54,7 @@ We thought the Rdkit canonicalization should always arrange atoms order for a SM
 
 In our original [canonicalize_products.py](https://github.com/uta-smile/RetroXpert/blob/main/canonicalize_products.py#L20) implementation, we tried to remove the information leak by re-arranging atom order without re-assigning the mapping numbers.
 However, it turns out that the rdkit canonicalization will take the mapping numbers into consideration. There still may be an information leak if not handled properly, as in our case.
-To completely remove the information leak, we propose to not only re-arranging product atom order, but also re-assign the mapping numbers according to the canonical atom order.
+To completely remove the information leak, we propose to **not only re-arranging product atom order, but also re-assign the mapping numbers according to the canonical atom order**.
 For more details, please refer to the updated [canonicalize_products.py](https://github.com/uta-smile/RetroXpert/blob/canonical_product/canonicalize_products.py) implementation.
 
 We recommend to use our latest canonicalization method to preprocess USPTO datasets.
