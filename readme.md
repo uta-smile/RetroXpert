@@ -20,6 +20,10 @@ Reactant: "O[C:1](=[O:2])[c:3]1[cH:4][c:5]([N+:6](=[O:7])[O-:8])[c:9]([S:10][c:1
 Product: "[C:1](=[O:2])([c:3]1[cH:4][c:5]([N+:6](=[O:7])[O-:8])[c:9]([S:10][c:11]2[c:12]([Cl:13])[cH:14][n:15][cH:16][c:17]2[Cl:18])[s:19]1)[NH:20][c:21]1[cH:22][cH:23][cH:24][c:25]2[cH:26][n:27][cH:28][cH:29][c:30]12"
 ```
 
+![reaction_1](./reaction_1.png)
+
+
+
 In the example reaction 1 (id: US20120114765A1), the reaction atoms are [C:1] and [N:20].
 Here the first product atom [C:1] belongs to the reaction atoms.
 During the retrosynthesis, the bond between atoms [C:1] and [N:20] is disonnected.
@@ -34,6 +38,8 @@ Reactant: "O=C(OCc1ccccc1)[NH:1][CH2:2][CH2:3][CH2:4][CH2:5][C@@H:6]([C:7]([O:8]
 ```
 Product: "[NH2:1][CH2:2][CH2:3][CH2:4][CH2:5][C@@H:6]([C:7]([O:8][CH3:9])=[O:10])[NH:11][C:12](=[O:13])[NH:14][c:15]1[cH:16][c:17]([O:18][CH3:19])[cH:20][c:21]([C:22]([CH3:23])([CH3:24])[CH3:25])[c:26]1[OH:27]"
 ```
+![reaction_2](./reaction_2.png)
+Illustration of reactant and product of example reaction 2.
 
 In the example reaction 2 (id: US05849732), the reaction atoms are [N:1] and the unmapped [C]. Here first product atom [N:1] belongs to the reaction atoms again.
 
