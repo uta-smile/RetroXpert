@@ -4,8 +4,8 @@ It is very unfortunate that we found a major information leak in our implementat
 We will fix the issue and update our method in future!
 
 As we mentioned in the [issue thread](https://github.com/uta-smile/RetroXpert/issues/10#issuecomment-803699582), there may be an information leak issue for the USPTO dataset if not handled properly. 
-We found the original mapping numbers in USPTO product SMILES may indicate the reaction atoms (atom property changes during the reaction). 
-To be more specific, for most USPTO reactions (will update detailed statistic later), **atom with mapping number 1 usually belongs to reaction atoms (may have multiple reaction atoms)**. 
+We found the original atom order of USPTO product SMILES may indicate the reaction atoms (atom property changes during the reaction). 
+To be more specific, for most USPTO reactions (will update detailed statistic later), **the first product atom (with mapping number 1) usually belongs to reaction atoms (may have multiple reaction atoms)**. 
 
 ### Information leak issue with USPTO-50K dataset
 To make the issue more clear, here are two example reactions from USPTO-50K train data:
@@ -20,7 +20,8 @@ Reactant: "O[C:1](=[O:2])[c:3]1[cH:4][c:5]([N+:6](=[O:7])[O-:8])[c:9]([S:10][c:1
 Product: "[C:1](=[O:2])([c:3]1[cH:4][c:5]([N+:6](=[O:7])[O-:8])[c:9]([S:10][c:11]2[c:12]([Cl:13])[cH:14][n:15][cH:16][c:17]2[Cl:18])[s:19]1)[NH:20][c:21]1[cH:22][cH:23][cH:24][c:25]2[cH:26][n:27][cH:28][cH:29][c:30]12"
 ```
 
-In the example reaction 1 (id: US20120114765A1), the reaction atoms are [C:1] and [N:20]. Here atom [C:1] belongs to the reaction atoms.
+In the example reaction 1 (id: US20120114765A1), the reaction atoms are [C:1] and [N:20].
+Here the first product atom [C:1] belongs to the reaction atoms.
 During the retrosynthesis, the bond between atoms [C:1] and [N:20] is disonnected.
 
 
@@ -34,24 +35,30 @@ Reactant: "O=C(OCc1ccccc1)[NH:1][CH2:2][CH2:3][CH2:4][CH2:5][C@@H:6]([C:7]([O:8]
 Product: "[NH2:1][CH2:2][CH2:3][CH2:4][CH2:5][C@@H:6]([C:7]([O:8][CH3:9])=[O:10])[NH:11][C:12](=[O:13])[NH:14][c:15]1[cH:16][c:17]([O:18][CH3:19])[cH:20][c:21]([C:22]([CH3:23])([CH3:24])[CH3:25])[c:26]1[OH:27]"
 ```
 
-In the example reaction 2 (id: US05849732), the reaction atoms are [N:1] and the unmapped [C]. Here atom [N:1] belongs to the reaction atoms again.
+In the example reaction 2 (id: US05849732), the reaction atoms are [N:1] and the unmapped [C]. Here first product atom [N:1] belongs to the reaction atoms again.
 
 
 
 ### Problem in our implementation
 
-We tried to avoid the problem by canonicalizing the product by rearrange the atom order to be the same as the canonical atom order, hoping to remove the potential information leak. Specifically, as in [canonicalize_products.py](https://github.com/uta-smile/RetroXpert/blob/main/canonicalize_products.py#L20), we remove the original numbers from product and canonicalize the product SMILES so that its atom order is canonical. Then we add the original mapping numbers to the associated atoms since our method needs aton-mapped reactions.
+We tried to avoid the problem by canonicalizing the product SMILES by re-arranging the atom order to be the same as the canonical atom order, hoping to remove the potential information leak.
+Specifically, as in [canonicalize_products.py](https://github.com/uta-smile/RetroXpert/blob/main/canonicalize_products.py#L20), we remove the original numbers from product and canonicalize the product SMILES so that its atom order is canonical.
+Then we add the original mapping numbers to the associated atoms since our method needs aton-mapped reactions.
 
 The problem of our [implementation](https://github.com/uta-smile/RetroXpert/blob/main/preprocessing.py#L173) is that when preparing the synthons for the second stage reactant generation, the molecule is canonicalized when converting to SMILES.
-We were not aware that Rdkit canonicalization would arrange atoms according to the mapping numbers (ascending order), as a result, the first atom of the synthon (starting atom with mapping number 1) belongs to reaction atoms. It turn out that this information leak will help the model predictions.
+We were not aware that Rdkit canonicalization would arrange atoms according to the mapping numbers (ascending order), as a result, the first atom of the synthon (starting atom with mapping number 1) belongs to reaction atoms.
+It turns out that this information leak will help the model predictions.
 We thought the Rdkit canonicalization should always arrange atoms order for a SMILES in some canonical order, so we did not check the procedure [implementation](https://github.com/uta-smile/RetroXpert/blob/main/preprocessing.py#L173) carefully. 
 
+### How to remove information leak
 
+In our original implementation [canonicalize_products.py](https://github.com/uta-smile/RetroXpert/blob/main/canonicalize_products.py#L20), we tried to remove the information leak by re-arranging atom order without re-assigning the mapping numbers.
+However, it turns out that the rdkit canonicalization will take the mapping numbers into consideration. There still may be an information leak if not handled properly, as in our case.
+To completely remove the information leak, we propose to not only re-arranging product atom order, but also re-assign the mapping numbers according to the canonical atom order.
+For more details, please refer to the updated canonicalize_products.py.
 
+We recommend to use our latest canonicalization method to preprocess USPTO datasets.
 
-
-
-<br/><br/> 
 <br/><br/> 
 
 

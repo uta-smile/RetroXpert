@@ -1,3 +1,8 @@
+'''
+Canonicalize product SMILES by re-assigning atom mapping numbers according to the canonical atom order.
+Since the original mapping numbers may indicate the reaction atoms, which results in information leak.
+'''
+
 import pandas as pd
 from rdkit import Chem
 from tqdm import tqdm
@@ -25,10 +30,21 @@ for idx, product in enumerate(tqdm(product_smiles_list)):
 
     matches = mol.GetSubstructMatches(mol_cano)
     if matches:
+        mapnums_old2new = {}
         for atom, mat in zip(mol_cano.GetAtoms(), matches[0]):
-            atom.SetAtomMapNum(index2mapnums[mat])
-        product = Chem.MolToSmiles(mol_cano, canonical=False)
-    reaction_list_new.append(reactant_smiles_list[idx] + '>>' + product)
+            mapnums_old2new[index2mapnums[mat]] = 1 + atom.GetIdx()
+            # update product mapping numbers according to canonical atom order
+            # to completely remove potential information leak
+            atom.SetAtomMapNum(1 + atom.GetIdx())
+        product = Chem.MolToSmiles(mol_cano)
+        # update reactant mapping numbers accordingly
+        mol_react = Chem.MolFromSmiles(reactant_smiles_list[idx])
+        for atom in mol_react.GetAtoms():
+            if atom.GetAtomMapNum() > 0:
+                atom.SetAtomMapNum(mapnums_old2new[atom.GetAtomMapNum()])
+        reactant = Chem.MolToSmiles(mol_react)
+
+    reaction_list_new.append(reactant + '>>' + product)
 
 csv['rxn_smiles'] = reaction_list_new
 csv.to_csv(output_csv_file, index=False)
