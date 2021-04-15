@@ -39,7 +39,6 @@ Reactant: "O=C(OCc1ccccc1)[NH:1][CH2:2][CH2:3][CH2:4][CH2:5][C@@H:6]([C:7]([O:8]
 Product: "[NH2:1][CH2:2][CH2:3][CH2:4][CH2:5][C@@H:6]([C:7]([O:8][CH3:9])=[O:10])[NH:11][C:12](=[O:13])[NH:14][c:15]1[cH:16][c:17]([O:18][CH3:19])[cH:20][c:21]([C:22]([CH3:23])([CH3:24])[CH3:25])[c:26]1[OH:27]"
 ```
 ![reaction_2](./reaction_2.png)
-Illustration of reactant and product of example reaction 2.
 
 In the example reaction 2 (id: US05849732), the reaction atoms are [N:1] and the unmapped [C]. Here first product atom [N:1] belongs to the reaction atoms again.
 
