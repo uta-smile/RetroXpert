@@ -1,6 +1,12 @@
 ## Update (5/17/2021):
 
-We adjusted our method slightly and the final Top-1 retrosynthesis accuracy is 62.1% for the known reaction type case, and 50.4% for the unknown reaction type case. The revised paper and implementation will come later.  
+We adjusted our method slightly and the final Top-1 retrosynthesis accuracy is 62.1% for the known reaction type case, and 50.4% for the unknown reaction type case. Detailed are in the below table. We are still continually improving and updating the results. The revised paper and implementation will come later.  
+
+|               | Top-1  | Top-3 | Top-5 | Top-10 | Top-20 | Top-50 |
+| -----------   | ------ | ----- | ------| -------| -------| -------|
+| With types    | 62.1%  | 75.8% | 78.5% | 80.9%  |  82.8% |  83.5% |
+| Without types | 50.4%  | 61.1% | 62.3% | 63.4%  |  63.9% |  64%   |
+
 
 ## Important update (4/13/2021):
 
